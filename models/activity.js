@@ -9,6 +9,15 @@ const ActivitySchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    activityName: {
+        type: String
+    },
+    activityDistance: {
+        type: Number,
+    },
+    activityTime:{
+        type: Number,
+    },
     activityDate: {
         type: String,
         required: true
