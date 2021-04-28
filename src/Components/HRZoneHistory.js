@@ -1,40 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
-import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link,fancyTimeFormat, HRZones} from '../utils/common'
+import {fancyTimeFormat, HRZones} from '../utils/common'
 import { DataGrid } from '@material-ui/data-grid';
-import { makeStyles, useTheme } from "@material-ui/core";
 
 function HRZoneHistory() {
     const [HRZoneData, setHRZoneData] = useState([]);
     const [HRRows, setHRRows] = useState([]);
     const [HRColumns, setHRColumns] = useState([]);
-    const useStyles = makeStyles(theme => ({
-        root: {
-          "& .MuiDataGrid-columnsContainer:": {
-            backgroundColor: "#002D72"
-          }
-        }
-      }));
-    const classes = useStyles();
+
     useEffect(async () => {
-        // Get Strava activity HR data
-        const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
-        const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};
-        const activityData = await axios.get(`${activities_link}?access_token=${stravaAuthResponse.data.access_token}`);
-        let streams = new Array(activityData.data.length).fill({});
+        // Get database activity HR data
+        const activityData = await axios.get(`http://localhost:5000/api/activity/`);
         let HRStreams = new Array(activityData.data.length).fill({});
         let totalTimePerHRZone = new Array(HRZones.length).fill(0);
         let timesPerHRZone = new Array(activityData.data.length).fill({});
   
         for (var i = 0; i < activityData.data.length; i++){
-          const stream = await axios.get(`${streams_link}${activityData.data[i].id}/streams?key_by_type=true&keys=time,velocity_smooth,heartrate`,config);
-          streams[i] = stream;
-          const tempTime = stream.data.time.data.map(ele => ele-stream.data.time.data[stream.data.time.data.indexOf(ele)-1]); 
+          const tempTime = activityData.data[i].timeStream.map(ele => ele-activityData.data[i].timeStream[activityData.data[i].timeStream.indexOf(ele)-1]); 
           tempTime[0] = 0; 
           HRStreams[i]= {
             timeDelta: tempTime,
-            heartrate: stream.data.heartrate.data,
+            heartrate: activityData.data[i].heartrateStream,
           };
           const timePerHRZone = new Array(HRZones.length).fill(0);
           for(var j = 0; j < HRZones.length; j++){
@@ -105,7 +92,7 @@ function HRZoneHistory() {
         </div>
         <div style = {{height:'100vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
           <div style = {{height:'30vh',width:'30vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-            <DataGrid className={classes.root} rows={HRRows} columns={HRColumns} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
+            <DataGrid rows={HRRows} columns={HRColumns} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
           </div>
         </div>
         </div>

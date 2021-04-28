@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link} from './utils/common'
 import './App.css';
@@ -14,7 +14,7 @@ function App() {
     const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
     const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};
     const stravaActivityData = await axios.get(`${activities_link}?access_token=${stravaAuthResponse.data.access_token}`);
-    console.log(stravaActivityData);
+    console.log(activityData);
     let dbActivityIDs = activityData.data.map(ele => ele.activityID);
     let stravaActivityIDs = stravaActivityData.data.map(ele => ele.id);
     let filteredStravaActivityIDs = stravaActivityIDs.filter(ele => dbActivityIDs.indexOf(ele) === -1);
@@ -39,16 +39,13 @@ function App() {
         const res = await axios.post(`http://localhost:5000/api/activity/`,payload);
       } catch (err) {console.error(err.message);}
     }
-    console.log(dbActivityIDs);
-    console.log(stravaActivityIDs);
-    console.log(filteredStravaActivityIDs);
   },[]);
 
   return (
     <div className="App">
       <Header/>
-      {/* <ActivityHistory /> */}
-      {/* <HRZoneHistory /> */}
+      <ActivityHistory />
+      <HRZoneHistory />
     </div>
   )}
 
