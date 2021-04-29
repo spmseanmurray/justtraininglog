@@ -1,0 +1,77 @@
+import React, {useState, useEffect} from 'react';
+import { useParams } from "react-router";
+import axios from 'axios';
+import { Line } from 'react-chartjs-2';
+import { DataGrid } from '@material-ui/data-grid';
+import {fancyTimeFormat} from '../utils/common'
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import PoolIcon from '@material-ui/icons/Pool';
+import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
+
+function Activity() {
+    let id = useParams();
+    const [data, setData] = useState([]);
+    const [activityRows, setActivityRows] = useState([]);
+    const [activityColumns, setActivityColumns] = useState([]);
+
+    useEffect(async () => {
+        // Get database activity data
+        const activityData = await axios.get(`/api/activity/${id.id}`);
+        // Set chart data and colors
+        setData({
+            labels: activityData.data[0].timeStream.map(ele => fancyTimeFormat(ele)),
+            datasets: [
+            {
+                label: 'Heart Rate [bpm]',
+                data: activityData.data[0].heartrateStream,
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                yAxisID: 'y-1',
+                pointRadius: 0,
+            },
+            {
+                label: 'Speed [km/hr]',
+                data: activityData.data[0].speedStream.map(ele=>ele*3.6),
+                backgroundColor: 'rgb(54, 162, 235)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                yAxisID: 'y-2',
+                pointRadius: 0,
+            },
+        ]
+        });
+        setActivityColumns([
+            { field: 'activityType', headerName: 'Type', renderCell: (params) => params.value.includes('Swim') ? <PoolIcon/> : params.value.includes('Run') ? <DirectionsRunIcon/> : <DirectionsBikeIcon/>, flex: 0.075, },
+            { field: 'date', headerName: 'Date', flex: 0.1},
+            { field: 'name', headerName: 'Name', flex: 0.25},
+            { field: 'distance', headerName: 'Distance (km)', flex: 0.1, },
+            { field: 'duration', headerName: 'Total Time (H:M:S)', flex: 0.15,},
+            ]);
+        setActivityRows([{
+            activityType: activityData.data[0].activityType,
+            date: new Date(activityData.data[0].activityDate).toISOString().slice(0,10),
+            name: activityData.data[0].activityName,
+            distance: (Math.round((activityData.data[0].activityDistance/1000 + Number.EPSILON) * 100) / 100), 
+            duration: fancyTimeFormat(activityData.data[0].activityTime),
+            id: activityData.data[0]._id,
+        }]);
+    },[]);
+
+    return(
+        <div>
+        <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
+        <div style = {{height:'10vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <div style = {{height:'10vh',width:'80vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
+                <DataGrid rows={activityRows} columns={activityColumns} density={'compact'} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true}/>
+            </div>
+        </div>
+        <div style = {{height:'2vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
+        <div style = {{height:'70vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <div style = {{height:'70vh',width:'80vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
+                <Line data={data} options={{ responsive: true, maintainAspectRatio: false, }}/>
+            </div>
+        </div>
+        </div>
+    )
+}
+
+export default Activity
