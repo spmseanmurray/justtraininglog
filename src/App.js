@@ -8,7 +8,7 @@ import Routes from './utils/routes';
 function App() {
 
   useEffect(async () => {
-    const activityData = await axios.get(`http://localhost:5000/api/activity/`);
+    const activityData = await axios.get(`/api/activity/`);
     // Get Strava activity data
     const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
     const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};
@@ -34,7 +34,7 @@ function App() {
         speedStream: stream.data.velocity_smooth.data
       };
       try {
-        const res = await axios.post(`http://localhost:5000/api/activity/`,payload);
+        const res = await axios.post(`/api/activity/`,payload);
       } catch (err) {console.error(err.message);}
     }
   },[]);
