@@ -8,7 +8,13 @@ function HRZoneHistory() {
     const [HRZoneData, setHRZoneData] = useState([]);
     const [HRRows, setHRRows] = useState([]);
     const [HRColumns, setHRColumns] = useState([]);
-
+    const options = {
+      plugins: {
+        legend: {
+          position: 'left',
+        },
+      },
+    };
     useEffect(async () => {
         // Get database activity HR data
         const activityData = await axios.get(`http://localhost:5000/api/activity/`);
@@ -46,7 +52,7 @@ function HRZoneHistory() {
             datasets: [
               {
                 label: 'Time',
-                data: percentPerZone,
+                data: percentPerZone.map(ele => Math.round((ele + Number.EPSILON) * 100) / 100),
                 backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -65,12 +71,14 @@ function HRZoneHistory() {
                 ],
                 borderWidth: 1,
                 hoverOffset: 4,
+                radius: '65%',
+                position: 'left'
               }]
           });
         setHRColumns([
-            { field: 'zone', headerName: 'Heart Rate Zone', width: '10vw' },
-            { field: 'time', headerName: 'Total Time (H:M:S)', width: '10vw'},
-            { field: 'percent', headerName: 'Percentage (%)', width: '10vw'},
+            { field: 'zone', headerName: 'Heart Rate Zone', width: '11vw' },
+            { field: 'time', headerName: 'Total Time (H:M:S)', width: '13vw'},
+            { field: 'percent', headerName: 'Percentage (%)', width: '11vw'},
         ]);
         setHRRows([
            { id: 0, zone: HRZoneLabels[0],time: fancyTimeFormat(totalTimePerHRZone[0]), percent: Math.round((percentPerZone[0] + Number.EPSILON) * 100) / 100},
@@ -85,15 +93,16 @@ function HRZoneHistory() {
     return (
         <>
         <div>
-        <div style = {{height:'100vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
-          <div style = {{height:'50vh',width:'50vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-            <Doughnut data={HRZoneData} />
-          </div>
+        <div style = {{display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <h3>Time Per Heartrate Zone</h3>
         </div>
-        <div style = {{height:'100vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
-          <div style = {{height:'30vh',width:'30vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-            <DataGrid rows={HRRows} columns={HRColumns} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
+        <div style = {{height:'70vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
+          <div style = {{height:'100vh',width:'60vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <Doughnut data={HRZoneData} options = {options}/>
           </div>
+         <div style = {{height:'100vh',width:'35vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <DataGrid rows={HRRows} columns={HRColumns} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
+          </div>  
         </div>
         </div>
         </>

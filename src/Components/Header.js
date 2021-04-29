@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,7 +17,8 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 function Header(){
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-
+    const history = useHistory();
+    
     return(
         <div style={{flexGrow: 1}}>
         <AppBar position="static" style={{ background: "#002D72",height:'65px'}}>
@@ -28,16 +30,16 @@ function Header(){
             <MenuIcon style={{ color: "#FFFFFF" }}/>
           </IconButton>
             <Typography variant="h6" style={{flexGrow: 1,textAlign: "left"}}>
-                JuStTrain
+                Just Training Log
             </Typography>
             </Toolbar>
         </AppBar>
         <Drawer anchor={"left"} open={isOpenDrawer} onClose={()=>setIsOpenDrawer(false)} >
         <Box minWidth={"15vw"} bgcolor={'#fff'}>
         <List >
-          <ListItem >
+          <ListItem button onClick={()=>history.push('/')}>
             <ListItemIcon><DashboardIcon style={{ color: "#778899" }}/></ListItemIcon>
-            <ListItemText primary={"Dashboard"} />
+            <ListItemText primary={"Home"} />
           </ListItem>
       </List>
       <Divider/>
