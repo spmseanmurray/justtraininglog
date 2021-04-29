@@ -62,10 +62,13 @@ function ActivityHistory() {
   }, []);
 
   return (
-    <div style = {{height:'100vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
-      <div style = {{height:'75vh',width:'75vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-        <Bar data={data} />
+    <div>
+    <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
+    <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
+      <div style = {{height:'80vh',width:'80vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
+        <Bar data={data} options={{ responsive: true, maintainAspectRatio: false, }}/>
       </div>
+    </div>
     </div>
   )
 }

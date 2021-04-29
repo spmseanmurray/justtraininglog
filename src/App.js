@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link} from './utils/common'
 import './App.css';
@@ -13,7 +13,6 @@ function App() {
     const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
     const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};
     const stravaActivityData = await axios.get(`${activities_link}?access_token=${stravaAuthResponse.data.access_token}&per_page=${95}`);
-    console.log(stravaActivityData);
     let dbActivityIDs = activityData.data.map(ele => ele.activityID);
     let stravaActivityIDs = stravaActivityData.data.map(ele => ele.id);
     let filteredStravaActivityIDs = stravaActivityIDs.filter(ele => dbActivityIDs.indexOf(ele) === -1);

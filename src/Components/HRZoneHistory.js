@@ -101,7 +101,7 @@ function HRZoneHistory() {
             <Doughnut data={HRZoneData} options = {options}/>
           </div>
          <div style = {{height:'100vh',width:'35vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-            <DataGrid rows={HRRows} columns={HRColumns} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
+            <DataGrid rows={HRRows} columns={HRColumns} density={'compact'} pageSize={6} disableColumnMenu={true} disableColumnSelector={true} autoHeight={true} hideFooter={true} />      
           </div>  
         </div>
         </div>

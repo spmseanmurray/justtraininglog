@@ -3,7 +3,7 @@ const activityModel = require('../models/activity');
 const app = express();
 
 app.get('/activity/:id', async (req, res) => {
-    const activity = await activityModel.find({activityID:req.params.id});
+    const activity = await activityModel.find({_id:req.params.id});
     try {
       res.send(activity);
     } catch (err) {

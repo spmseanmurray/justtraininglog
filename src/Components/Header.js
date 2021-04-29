@@ -21,7 +21,7 @@ function Header(){
     
     return(
         <div style={{flexGrow: 1}}>
-        <AppBar position="static" style={{ background: "#002D72",height:'65px'}}>
+        <AppBar position="static" style={{ background: "#002D72",height:'37'}}>
             <Toolbar>
             <IconButton edge="start" style={{ background: "#002D72" }}
                 onClick={() => {
