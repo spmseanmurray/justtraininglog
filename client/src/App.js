@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link} from './utils/common'
+import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link,fancyTimeFormat} from './utils/common'
 import './App.css';
 import { BrowserRouter} from 'react-router-dom';
 import Routes from './utils/routes';
@@ -8,8 +8,6 @@ import Routes from './utils/routes';
 
 function App() {
   useEffect(async () => {
-    console.log(process.env.REACT_APP_API_URL);
-
     const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
     // Get Strava activity data
     const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
@@ -26,14 +24,14 @@ function App() {
         _stravaID: stravaActivityData.data[idx].athlete.id,
         activityID: filteredStravaActivityIDs[i],
         activityName: stravaActivityData.data[idx].name,
-        activityDistance: stravaActivityData.data[idx].distance,
-        activityTime: stravaActivityData.data[idx].elapsed_time,
-        activityDate: stravaActivityData.data[idx].start_date,
+        activityDistance: (Math.round((stravaActivityData.data[idx].distance/1000 + Number.EPSILON) * 100) / 100),
+        activityTime: fancyTimeFormat(stravaActivityData.data[idx].elapsed_time),
+        activityDate: new Date(stravaActivityData.data[idx].start_date).toISOString().slice(0,10),
         activityType: stravaActivityData.data[idx].type,
         timeStream: stream.data.time.data,
-        distanceStream: stream.data.distance.data,
+        distanceStream: stream.data.distance.data.map(ele => ele/1000),
         heartrateStream: stream.data.heartrate.data,
-        speedStream: stream.data.velocity_smooth.data
+        paceStream: stream.data.velocity_smooth.data.map(ele => 1000/60/ele),
       };
       try {
         const res = await axios.post(`/api/activity/`,payload);

@@ -24,15 +24,15 @@ function ActivityHistory() {
     // Generate array of distance by sport for each of the previous 28 days
     const swimDistances = daylist.map((ele)=>{
       const idx = swimDates.indexOf(ele);
-      return (idx === -1) ? 0 : swimData[idx].activityDistance/1000;
+      return (idx === -1) ? 0 : swimData[idx].activityDistance;
     });
     const bikeDistances = daylist.map((ele)=>{
       const idx = bikeDates.indexOf(ele);
-      return (idx === -1) ? 0 : bikeData[idx].activityDistance/1000;
+      return (idx === -1) ? 0 : bikeData[idx].activityDistance;
     });
     const runDistances = daylist.map((ele)=>{
       const idx = runDates.indexOf(ele);
-      return (idx === -1) ? 0 : runData[idx].activityDistance/1000;
+      return (idx === -1) ? 0 : runData[idx].activityDistance;
     });
 
     // Set chart data and colors

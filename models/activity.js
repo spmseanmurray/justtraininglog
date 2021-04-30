@@ -10,13 +10,16 @@ const ActivitySchema = new mongoose.Schema({
         required: true
     },
     activityName: {
-        type: String
+        type: String,
+        required: true
     },
     activityDistance: {
         type: Number,
+        required: true
     },
     activityTime:{
-        type: Number,
+        type: String,
+        required: true
     },
     activityDate: {
         type: String,
@@ -35,7 +38,7 @@ const ActivitySchema = new mongoose.Schema({
     heartrateStream: {
         type: [Number]
     },
-    speedStream: {
+    paceStream: {
         type: [Number]
     },
 }, { writeConcern: {

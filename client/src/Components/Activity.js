@@ -14,6 +14,29 @@ function Activity() {
     const [activityRows, setActivityRows] = useState([]);
     const [activityColumns, setActivityColumns] = useState([]);
 
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales:{
+            x:{
+                grid: {display: false},
+            },
+            y: {
+                display: false,
+            },
+            y1: {
+                display: 'auto',
+                grid: {display: false},
+            },
+            y2: {
+                display: 'auto',
+                reverse: true,
+                max: 15,
+                grid: {display: false},
+            }
+        },
+      };
+      
     useEffect(async () => {
         // Get database activity data
         const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/${id.id}`);
@@ -26,15 +49,15 @@ function Activity() {
                 data: activityData.data[0].heartrateStream,
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgba(255, 99, 132, 1)',
-                yAxisID: 'y-1',
+                yAxisID: 'y1',
                 pointRadius: 0,
             },
             {
-                label: 'Speed [km/hr]',
-                data: activityData.data[0].speedStream.map(ele=>ele*3.6),
+                label: 'Pace [min/km]',
+                data: activityData.data[0].paceStream,
                 backgroundColor: 'rgb(54, 162, 235)',
                 borderColor: 'rgba(54, 162, 235, 1)',
-                yAxisID: 'y-2',
+                yAxisID: 'y2',
                 pointRadius: 0,
             },
         ]
@@ -48,10 +71,10 @@ function Activity() {
             ]);
         setActivityRows([{
             activityType: activityData.data[0].activityType,
-            date: new Date(activityData.data[0].activityDate).toISOString().slice(0,10),
+            date: activityData.data[0].activityDate,
             name: activityData.data[0].activityName,
-            distance: (Math.round((activityData.data[0].activityDistance/1000 + Number.EPSILON) * 100) / 100), 
-            duration: fancyTimeFormat(activityData.data[0].activityTime),
+            distance: activityData.data[0].activityDistance, 
+            duration: activityData.data[0].activityTime,
             id: activityData.data[0]._id,
         }]);
     },[]);
@@ -67,7 +90,7 @@ function Activity() {
         <div style = {{height:'2vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
         <div style = {{height:'70vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
             <div style = {{height:'70vh',width:'80vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-                <Line data={data} options={{ responsive: true, maintainAspectRatio: false, }}/>
+                <Line data={data} options={options}/>
             </div>
         </div>
         </div>

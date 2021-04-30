@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { DataGrid } from '@material-ui/data-grid';
 import { useHistory } from "react-router-dom";
-import {fancyTimeFormat} from '../utils/common'
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import PoolIcon from '@material-ui/icons/Pool';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
@@ -26,10 +25,10 @@ function ActivityList() {
         ]);
     setActivityRows(activityData.data.map(ele=> {return {  
         activityType: ele.activityType,
-        date: new Date(ele.activityDate).toISOString().slice(0,10),
+        date: ele.activityDate,
         name: ele.activityName,
-        distance: (Math.round((ele.activityDistance/1000 + Number.EPSILON) * 100) / 100), 
-        duration: fancyTimeFormat(ele.activityTime),
+        distance: ele.activityDistance, 
+        duration: ele.activityTime,
         id: ele._id,
     }}));
   }, []);
