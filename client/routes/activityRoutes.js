@@ -1,5 +1,5 @@
 const express = require('express');
-const activityModel = require('../models/activity');
+const activityModel = require('../../models/activity');
 const app = express();
 
 app.get('/activity/:id', async (req, res) => {

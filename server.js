@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const getClient = require('./db.js');
-const activityRouter = require('./routes/activityRoutes.js');
+const activityRouter = require('./client/routes/activityRoutes.js');
 
 require('dotenv').config();
 const app = express();
@@ -15,9 +15,9 @@ app.use(express.json());
 app.use("/api",activityRouter);
 
 if (process.env.Node_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'build')));
+    app.use(express.static(path.join(__dirname, 'client/build')));
     app.get('*', function(req, res) {
-      res.sendFile(path.join(__dirname, 'build', 'index.html'));
+      res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     }); 
 }
 
