@@ -9,6 +9,7 @@ const activityRouter = require('./client/routes/activityRoutes.js');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
+const host = '0.0.0.0';
 
 app.use(cors());
 app.use(express.json());
@@ -21,7 +22,7 @@ if (process.env.Node_ENV === 'production') {
     }); 
 }
 
-app.listen(port, async () => {
+app.listen(port, host, async () => {
     console.log(`Server is running on port ${port}`);
     try {
         await getClient();
