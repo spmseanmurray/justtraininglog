@@ -14,7 +14,7 @@ function ActivityList() {
 
   useEffect(async () => {
     // Get database activity data
-    const activityData = await axios.get(`/api/activity/`);
+    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
     console.log(activityData);
     // Set chart data and colors
     setActivityColumns([

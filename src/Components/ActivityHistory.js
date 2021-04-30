@@ -8,7 +8,7 @@ function ActivityHistory() {
 
   useEffect(async () => {
     // Get database activity data
-    const activityData = await axios.get(`/api/activity/`);
+    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
     // Sort database activity data by sport
     const swimData = activityData.data.filter(ele => ele.activityType.includes('Swim'));
     const bikeData =  activityData.data.filter(ele => ele.activityType.includes('Ride'));

@@ -17,7 +17,7 @@ function HRZoneHistory() {
     };
     useEffect(async () => {
         // Get database activity HR data
-        const activityData = await axios.get(`/api/activity/`);
+        const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
         let HRStreams = new Array(activityData.data.length).fill({});
         let totalTimePerHRZone = new Array(HRZones.length).fill(0);
         let timesPerHRZone = new Array(activityData.data.length).fill({});

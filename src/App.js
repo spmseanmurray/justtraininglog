@@ -5,10 +5,12 @@ import './App.css';
 import { BrowserRouter} from 'react-router-dom';
 import Routes from './utils/routes';
 
-function App() {
 
+function App() {
   useEffect(async () => {
-    const activityData = await axios.get(`/api/activity/`);
+    console.log(process.env.REACT_APP_API_URL);
+
+    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
     // Get Strava activity data
     const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
     const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};

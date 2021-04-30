@@ -5,6 +5,7 @@ export const refreshToken = "f542ac18d673aa5edd2f5c63fd8d690aaf2b4e11";
 export const auth_link = "https://www.strava.com/oauth/token";
 export const activities_link = `https://www.strava.com/api/v3/athlete/activities`;
 export const streams_link = `https://www.strava.com/api/v3/activities/`;
+require("dotenv").config();
 
 // Heart Rate Zones
 export const HRZones = [116, 142, 158, 169, 178, 205];

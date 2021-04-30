@@ -16,7 +16,7 @@ function Activity() {
 
     useEffect(async () => {
         // Get database activity data
-        const activityData = await axios.get(`/api/activity/${id.id}`);
+        const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/${id.id}`);
         // Set chart data and colors
         setData({
             labels: activityData.data[0].timeStream.map(ele => fancyTimeFormat(ele)),
