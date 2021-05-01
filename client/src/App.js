@@ -7,6 +7,7 @@ import Routes from './utils/routes';
 
 
 function App() {
+  document.title = " Just Training Log";
   useEffect(async () => {
     const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
     // Get Strava activity data
@@ -34,7 +35,7 @@ function App() {
         paceStream: stream.data.velocity_smooth.data.map(ele => 1000/60/ele),
       };
       try {
-        const res = await axios.post(`/api/activity/`,payload);
+        const res = await axios.post(`/api/activity/`, payload);
       } catch (err) {console.error(err.message);}
     }
   },[]);

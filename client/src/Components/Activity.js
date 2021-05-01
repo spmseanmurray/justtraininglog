@@ -18,8 +18,9 @@ function Activity() {
         responsive: true,
         maintainAspectRatio: false,
         scales:{
-            x:{
+            x: {
                 grid: {display: false},
+                title: {display: true, text: 'Time [H:M:S]'}
             },
             y: {
                 display: false,
@@ -27,12 +28,14 @@ function Activity() {
             y1: {
                 display: 'auto',
                 grid: {display: false},
+                title: {display: true, text: 'Heartrate [bpm]'}
             },
             y2: {
                 display: 'auto',
                 reverse: true,
                 max: 15,
                 grid: {display: false},
+                title: {display: true, text: 'Pace [min/km]'}
             }
         },
       };
