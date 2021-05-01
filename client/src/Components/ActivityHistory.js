@@ -6,6 +6,21 @@ import {getDaysArray} from '../utils/common'
 function ActivityHistory() {
   const [data, setData] = useState([]);
 
+  
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales:{
+        x: {
+            title: {display: true, text: 'Date'}
+        },
+        y: {
+            title: {display: true, text: 'Distance [km]'}
+        },
+    },
+  };
+  
+
   useEffect(async () => {
     // Get database activity data
     const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
@@ -66,7 +81,7 @@ function ActivityHistory() {
     <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
     <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
       <div style = {{height:'80vh',width:'80vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
-        <Bar data={data} options={{ responsive: true, maintainAspectRatio: false, }}/>
+        <Bar data={data} options={options}/>
       </div>
     </div>
     </div>
