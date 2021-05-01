@@ -29,6 +29,12 @@ const ActivitySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    averagePace: {
+        type: String,
+    },
+    timePerHRZone: {
+        type: [Number]
+    },
     timeStream: {
         type: [Number]
     },

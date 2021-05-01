@@ -36,3 +36,20 @@ export function fancyTimeFormat(duration)
     ret += "" + secs;
     return ret;
 }
+
+export function getTimePerZone(activityData){
+    const timeDelta = activityData.data.time.data.map(ele => ele-activityData.data.time.data[activityData.data.time.data.indexOf(ele)-1]); 
+    timeDelta[0] = 0; 
+    const timePerHRZone = new Array(HRZones.length).fill(0);
+    for(var i = 0; i < HRZones.length; i++){
+        for (var j = 0; j < timeDelta.length; j++) {
+            if (i===0 && activityData.data.heartrate.data[j] < HRZones[i]) {
+                timePerHRZone[i] += timeDelta[j];
+            }
+            else if (i>0 && activityData.data.heartrate.data[j] >= HRZones[i-1] && activityData.data.heartrate.data[j] < HRZones[i] ){
+                timePerHRZone[i] += timeDelta[j];
+            }
+        }
+    }
+    return timePerHRZone;
+}
