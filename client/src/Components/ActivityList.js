@@ -20,14 +20,16 @@ function ActivityList() {
         { field: 'activityType', headerName: 'Type', renderCell: (params) => params.value.includes('Swim') ? <PoolIcon/> : params.value.includes('Run') ? <DirectionsRunIcon/> : <DirectionsBikeIcon/>, flex: 0.075, },
         { field: 'date', headerName: 'Date', flex: 0.1},
         { field: 'name', headerName: 'Name', flex: 0.25},
-        { field: 'distance', headerName: 'Distance (km)', flex: 0.1, },
-        { field: 'duration', headerName: 'Total Time (H:M:S)', flex: 0.15,},
+        { field: 'distance', headerName: 'Distance (km)', flex: 0.1},
+        { field: 'pace', headerName: 'Pace (min/km)', flex: 0.1},
+        { field: 'duration', headerName: 'Total Time (H:M:S)', flex: 0.15},
         ]);
     setActivityRows(activityData.data.map(ele=> {return {  
         activityType: ele.activityType,
         date: ele.activityDate,
         name: ele.activityName,
         distance: ele.activityDistance, 
+        pace: ele.averagePace,
         duration: ele.activityTime,
         id: ele._id,
     }}));

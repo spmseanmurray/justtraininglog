@@ -47,6 +47,9 @@ const ActivitySchema = new mongoose.Schema({
     paceStream: {
         type: [Number]
     },
+    elevationStream: {
+        type: [Number]
+    },
 }, { writeConcern: {
     j: true,
     wtimeout: 1000

@@ -11,35 +11,10 @@ import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 function Activity() {
     let id = useParams();
     const [data, setData] = useState([]);
+    const [options, setOptions] = useState([]);
     const [activityRows, setActivityRows] = useState([]);
     const [activityColumns, setActivityColumns] = useState([]);
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales:{
-            x: {
-                grid: {display: false},
-                title: {display: true, text: 'Time [H:M:S]'}
-            },
-            y: {
-                display: false,
-            },
-            y1: {
-                display: 'auto',
-                grid: {display: false},
-                title: {display: true, text: 'Heartrate [bpm]'}
-            },
-            y2: {
-                display: 'auto',
-                reverse: true,
-                max: 15,
-                grid: {display: false},
-                title: {display: true, text: 'Pace [min/km]'}
-            }
-        },
-      };
-      
     useEffect(async () => {
         // Get database activity data
         const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/${id.id}`);
@@ -63,13 +38,54 @@ function Activity() {
                 yAxisID: 'y2',
                 pointRadius: 0,
             },
+            {
+                label: 'Elevation [m]',
+                data: activityData.data[0].elevationStream,
+                backgroundColor: 'rgb(138, 43, 226)',
+                borderColor: 'rgba(138, 43, 226, )',
+                yAxisID: 'y3',
+                pointRadius: 0,
+            },
         ]
         });
+        setOptions({
+            responsive: true,
+            maintainAspectRatio: false,
+            scales:{
+                x: {
+                    grid: {display: false},
+                    title: {display: true, text: 'Time [H:M:S]'}
+                },
+                y: {
+                    display: false,
+                },
+                y1: {
+                    display: 'auto',
+                    grid: {display: false},
+                    title: {display: true, text: 'Heartrate [bpm]'}
+                },
+                y2: {
+                    display: 'auto',
+                    reverse: true,
+                    max: 10, // Update this to be based off average pace
+                    grid: {display: false},
+                    title: {display: true, text: 'Pace [min/km]'}
+                },
+                y3: {
+                    display: 'auto',
+                    reverse: true,
+                    grid: {display: false},
+                    title: {display: true, text: 'Elevation [m]'}
+                }
+            },
+          });
+          
         setActivityColumns([
             { field: 'activityType', headerName: 'Type', renderCell: (params) => params.value.includes('Swim') ? <PoolIcon/> : params.value.includes('Run') ? <DirectionsRunIcon/> : <DirectionsBikeIcon/>, flex: 0.075, },
             { field: 'date', headerName: 'Date', flex: 0.1},
             { field: 'name', headerName: 'Name', flex: 0.25},
             { field: 'distance', headerName: 'Distance (km)', flex: 0.1, },
+            { field: 'pace', headerName: 'Pace (min/km)', flex: 0.1},
             { field: 'duration', headerName: 'Total Time (H:M:S)', flex: 0.15,},
             ]);
         setActivityRows([{
@@ -77,6 +93,7 @@ function Activity() {
             date: activityData.data[0].activityDate,
             name: activityData.data[0].activityName,
             distance: activityData.data[0].activityDistance, 
+            pace: activityData.data[0].averagePace,
             duration: activityData.data[0].activityTime,
             id: activityData.data[0]._id,
         }]);
