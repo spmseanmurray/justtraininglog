@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
-import {fancyTimeFormat, HRZones} from '../utils/common'
+import {fancyTimeFormat, HRZoneLabels} from '../utils/common'
 import { DataGrid } from '@material-ui/data-grid';
 
 function HRZoneHistory() {
@@ -18,35 +18,9 @@ function HRZoneHistory() {
     useEffect(async () => {
         // Get database activity HR data
         const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
-        let HRStreams = new Array(activityData.data.length).fill({});
-        let totalTimePerHRZone = new Array(HRZones.length).fill(0);
-        let timesPerHRZone = new Array(activityData.data.length).fill({});
-  
-        for (var i = 0; i < activityData.data.length; i++){
-          const tempTime = activityData.data[i].timeStream.map(ele => ele-activityData.data[i].timeStream[activityData.data[i].timeStream.indexOf(ele)-1]); 
-          tempTime[0] = 0; 
-          HRStreams[i]= {
-            timeDelta: tempTime,
-            heartrate: activityData.data[i].heartrateStream,
-          };
-          const timePerHRZone = new Array(HRZones.length).fill(0);
-          for(var j = 0; j < HRZones.length; j++){
-            for (var k = 0; k < HRStreams[i].timeDelta.length; k++) {
-              if (j===0 && HRStreams[i].heartrate[k] < HRZones[j]) {
-                timePerHRZone[j] += HRStreams[i].timeDelta[k];
-                totalTimePerHRZone[j] += HRStreams[i].timeDelta[k];
-              }
-              else if (j>0 && HRStreams[i].heartrate[k] >= HRZones[j-1] && HRStreams[i].heartrate[k] < HRZones[j] ){
-                timePerHRZone[j] += HRStreams[i].timeDelta[k];
-                totalTimePerHRZone[j] += HRStreams[i].timeDelta[k];
-              }
-            }
-          }
-  
-          timesPerHRZone[i] = timePerHRZone.map(ele => fancyTimeFormat(ele)); 
-        }
-        const HRZoneLabels = ['Zone 0','Zone 1','Zone 2','Zone 3','Zone 4','Zone 5'];
-        const percentPerZone = totalTimePerHRZone.map(ele => ele/totalTimePerHRZone.reduce(function(a, b){return a + b;}, 0)*100);
+        const totalTimePerHRZone = activityData.data.filter(ele => (new Date().getTime() - new Date(ele.activityDate).getTime()) < 28*24*3600*1000).map(ele => ele.timePerHRZone).reduce(function(a, b){return a.map(function(v,i){return v+b[i];});});
+        const percentPerZone = totalTimePerHRZone.map(ele => 100*ele/totalTimePerHRZone.reduce(function(a, b){return a + b;}));
+        console.log(percentPerZone)
         setHRZoneData({
             labels: HRZoneLabels,
             datasets: [

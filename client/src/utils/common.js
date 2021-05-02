@@ -9,6 +9,7 @@ require("dotenv").config();
 
 // Heart Rate Zones
 export const HRZones = [116, 142, 158, 169, 178, 205];
+export const HRZoneLabels = ['Zone 0','Zone 1','Zone 2','Zone 3','Zone 4','Zone 5',];
 
 // Get array of date object for each day between start and end day
 export const getDaysArray = function(start, end) {
