@@ -42,7 +42,7 @@ function Activity() {
                 label: 'Elevation [m]',
                 data: activityData.data[0].elevationStream,
                 backgroundColor: 'rgb(138, 43, 226)',
-                borderColor: 'rgba(138, 43, 226, )',
+                borderColor: 'rgba(138, 43, 226, 1)',
                 yAxisID: 'y3',
                 pointRadius: 0,
             },
