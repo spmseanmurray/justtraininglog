@@ -23,13 +23,8 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Lastname required"],
         lowercase: true,
     },
-    dateMember: {
-        type: Date,
-        required: [true, "DateMember required"],
-    },
     stravaID: {
         type: String,
-        required: [true, "StravaID required"],
         lowercase: true,
     },
     isVerified: {type: Boolean, default: false},

@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 
 const getClient = require('./db.js');
 const activityRouter = require('./client/routes/activityRoutes.js');
+const userRouter = require('./client/routes/userRoutes');
 
 require('dotenv').config();
 const app = express();
@@ -14,6 +15,7 @@ const host = '0.0.0.0';
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
 app.use("/api",activityRouter);
+app.use("/api",userRouter);
 
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets

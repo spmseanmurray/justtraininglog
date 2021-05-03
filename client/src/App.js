@@ -3,7 +3,7 @@ import axios from 'axios';
 import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link,fancyTimeFormat,getTimePerZone} from './utils/common'
 import './App.css';
 import { BrowserRouter} from 'react-router-dom';
-import Routes from './utils/routes';
+import Routes from './routes/routes';
 
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
         timePerHRZone: getTimePerZone(stream)
       };
       try {
-        const res = await axios.post(`/api/activity/`, payload);
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/activity/`, payload);
       } catch (err) {console.error(err.message)}
     }
   },[]);
