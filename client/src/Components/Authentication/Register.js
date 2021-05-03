@@ -169,6 +169,7 @@ function Register(){
                 Register
             </Button> 
         </Form>
+        <Button color="link" onClick={()=>{history.push('/login')}}>Already have an account?</Button>
       </Col> 
       </div>
     </div> 
