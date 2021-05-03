@@ -8,16 +8,17 @@ import Home from '../Components/Home';
 import Register from '../Components/Authentication/Register';
 import Login from '../Components/Authentication/Login';
 import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 
 const Routes = () => (
     <Switch>
         <PublicRoute exact path="/" component={Home} />
         <PublicRoute exact path="/register" component={Register} />
         <PublicRoute exact path="/login" component={Login} />
-        <PublicRoute exact path="/activity/:id" component={Activity} />
-        <PublicRoute exact path="/activity-list" component={ActivityList} />
-        <PublicRoute exact path="/activity-history" component={ActivityHistroy} />
-        <PublicRoute exact path="/hr-zone-history" component={HRZoneHistroy} />
+        <PrivateRoute exact path="/activity/:id" component={Activity} />
+        <PrivateRoute exact path="/activity-list" component={ActivityList} />
+        <PrivateRoute exact path="/activity-history" component={ActivityHistroy} />
+        <PrivateRoute exact path="/hr-zone-history" component={HRZoneHistroy} />
     </Switch>
 )
 
