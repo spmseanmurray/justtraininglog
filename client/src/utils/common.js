@@ -55,7 +55,7 @@ export function getTimePerZone(activityData){
     return timePerHRZone;
 }
 
-export function logout (){
+export function logout() {
     sessionStorage.removeItem('id');
 };
 

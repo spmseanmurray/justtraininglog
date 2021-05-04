@@ -111,11 +111,11 @@ function Login(){
                     dismissAlerts();
                     await handleLogin();
                   }}> Sign In</Button>
-                <br/>
-                Don't Have an Account?
-              <Button color="link" onClick={()=>{history.push('/register')}}>Sign Up Now</Button>
               <br/>
-              <Button color="link" onClick={()=>{history.push('/recover')}}>Forgot Password?</Button>
+                Don't Have an Account?
+              <Link style={{marginLeft:'1vw'}} onClick={()=>{history.push('/register')}}>Sign Up Now</Link>
+              <br/>
+              <Link onClick={()=>{history.push('/recover')}}>Forgot Password?</Link>
           </Col>  
           </div>
         </div>
