@@ -23,9 +23,23 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Lastname required"],
         lowercase: true,
     },
-    stravaID: {
+    stravaClientID: {
         type: String,
         lowercase: true,
+        default: '',
+    },
+    stravaClientSecret: {
+        type: String,
+        lowercase: true,
+        default: '',
+    },
+    stravaClientRefreshToken: {
+        type: String,
+        lowercase: true,
+        default: '',
+    },
+    activityHRZones: {
+        type: [Number],
     },
     isVerified: {type: Boolean, default: false},
     avatar: {type: String},

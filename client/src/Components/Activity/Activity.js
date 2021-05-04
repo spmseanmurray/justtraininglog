@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { DataGrid } from '@material-ui/data-grid';
-import {fancyTimeFormat} from '../utils/common'
+import {fancyTimeFormat} from '../../utils/common'
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import PoolIcon from '@material-ui/icons/Pool';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';

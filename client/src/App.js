@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
-import {clientID,clientSecret,refreshToken,auth_link,activities_link,streams_link,fancyTimeFormat,getTimePerZone} from './utils/common'
+import {auth_link,activities_link,streams_link,fancyTimeFormat,getTimePerZone} from './utils/common'
 import './App.css';
 import { BrowserRouter} from 'react-router-dom';
 import Routes from './routes/routes';
@@ -10,8 +10,8 @@ function App() {
   document.title = " Just Training Log";
   useEffect(async () => {
     const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
-    // Get Strava activity data
-    const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`);
+    const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`);
+    const stravaAuthResponse = await axios.post(`${auth_link}?client_id=${user.data[0].stravaClientID}&client_secret=${user.data[0].stravaClientSecret}&refresh_token=${user.data[0].stravaClientRefreshToken}&grant_type=refresh_token`);
     const config = {headers: { "Authorization": `Bearer ${stravaAuthResponse.data.access_token}` }};
     const stravaActivityData = await axios.get(`${activities_link}?access_token=${stravaAuthResponse.data.access_token}&per_page=${90}`);
     let dbActivityIDs = activityData.data.map(ele => ele.activityID);

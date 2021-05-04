@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
-import {getDaysArray} from '../utils/common'
+import {getDaysArray} from '../../utils/common'
 
 function ActivityHistory() {
   const [data, setData] = useState([]);

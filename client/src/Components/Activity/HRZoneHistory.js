@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
-import {fancyTimeFormat, HRZoneLabels} from '../utils/common'
+import {fancyTimeFormat, HRZoneLabels} from '../../utils/common'
 import { DataGrid } from '@material-ui/data-grid';
 
 function HRZoneHistory() {
