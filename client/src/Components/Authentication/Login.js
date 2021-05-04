@@ -1,44 +1,42 @@
-import React, {useState} from 'react';
-import axios from 'axios'
+import React, {useEffect, useState} from 'react';
 import {Button,Col,Form, FormGroup,FormFeedback,Input} from 'reactstrap';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import { useHistory } from "react-router-dom";
-import {getUser,login,getIsVerified,logout} from '../../utils/common';
+import {useHistory} from "react-router-dom";
+import {login,logout} from '../../utils/common';
 import {validateEmail} from '../../utils/regex';
+import {apiLogin, apiUser} from '../../utils/api';
 
 function Login(){
-  const [emailLogin, setEmailLogin] = useState('');
-  const [passwordLogin, setPasswordLogin] = useState('');
-  const [alertLogin, setAlertLogin] = useState(false);
-  const [alertInvalidLoginCreds, setAlertInvalidLoginCreds] = useState(false);
-  const [alertAlreadyLoggedIn, setAlertAlreadyLoggedIn] = useState(false);
-  const [alertMessageLogin, setAlertMessageLogin] = useState('');
-  const history = useHistory();
+    const [emailLogin, setEmailLogin] = useState('');
+    const [passwordLogin, setPasswordLogin] = useState('');
+    const [alertLogin, setAlertLogin] = useState(false);
+    const [alertInvalidLoginCreds, setAlertInvalidLoginCreds] = useState(false);
+    const [alertAlreadyLoggedIn, setAlertAlreadyLoggedIn] = useState(false);
+    const [alertMessageLogin, setAlertMessageLogin] = useState('');
+    const history = useHistory();
 
-  const dismissAlerts= () => {
-    setAlertLogin(false);
-    setAlertAlreadyLoggedIn(false);
-    setAlertInvalidLoginCreds(false);
-    setAlertMessageLogin('');
-  };
+    const dismissAlerts= () => {
+        setAlertLogin(false);
+        setAlertAlreadyLoggedIn(false);
+        setAlertInvalidLoginCreds(false);
+        setAlertMessageLogin('');
+    };
 
-  async function handleLogin(){
+    async function handleLogin(){
     try{
       if (!emailLogin||!passwordLogin){
         dismissAlerts();
         setAlertLogin(true);
         setAlertMessageLogin("Please fill in all required fields");
       } else {
-        if (!getUser()){
+        if (!sessionStorage.getItem('id')){
           const payload = {"email":emailLogin,"password":passwordLogin}
-          let data = '';
-          try {
-            data = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login`, payload);
-          } catch (err) {console.error(err.message)}
-
-          login(data.data.user,data.data.user.isVerified);
-          if(!getIsVerified()){
+          const data = await apiLogin(payload);
+          console.log(data)
+          login(data.data.user._id);
+          console.log(sessionStorage.getItem('id'))
+          if(!data.data.user.isVerified){
             history.push('/verify');
           } else {
             history.push(`/`);
@@ -59,9 +57,9 @@ function Login(){
         setAlertMessageLogin("Oops... Something Went Wrong");
       } 
     };
-  };
+    };
   
-  return <div className="Login" data-testid="Login"> 
+    return <div className="Login" data-testid="Login"> 
         <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
         <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
         <div style = {{height:'80vh',width:'40vw',display:'flex', alignItems:'center',justifyContent:'center'}}>

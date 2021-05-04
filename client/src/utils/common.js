@@ -55,29 +55,12 @@ export function getTimePerZone(activityData){
     return timePerHRZone;
 }
 
-export function getUser() {
-    return sessionStorage.getItem('user') || null;
-};
-
-export function getLoginStatus() {
-    return (sessionStorage.getItem('isVerified')&&sessionStorage.getItem('user'));
-};
-
-export function getIsVerified() {
-    if (!sessionStorage.getItem('isVerified')) return null;
-    if (sessionStorage.getItem('isVerified') === 'false'){
-        return false;
-    } else return true;
-};
-
 export function logout (){
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('isVerified');
+    sessionStorage.removeItem('id');
 };
 
-export function login (user,isVerified){
-    sessionStorage.setItem('user',JSON.stringify(user));
-    sessionStorage.setItem('isVerified',isVerified);;
+export function login (id){
+    sessionStorage.setItem('id', id);
 };
 
 export function capitalizeFirst(s){

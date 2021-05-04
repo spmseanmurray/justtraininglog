@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import axios from 'axios'
 import {Button,Col,Row,Form,FormGroup,Input,FormFeedback} from 'reactstrap';
 import {Alert} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
-import {getUser,login,getIsVerified,logout} from '../../utils/common';
+import {login,logout} from '../../utils/common';
 import {validatePassword,validateEmail,validatePasswordLiteral} from '../../utils/regex';
 import { useHistory } from "react-router-dom";
+import { apiRegister} from '../../utils/api';
 
 function Register(){
   const [emailRegister, setEmailRegister] = useState('');
@@ -32,21 +32,16 @@ function Register(){
         setAlertRegister(true);
         setAlertMessageRegister("Please fill in all required fields");
       } else {
-        if (!getUser()){
+        if (!sessionStorage.getItem('id')){
           const payload = {
             "email":emailRegister,
             "password":passwordRegister,
             "first":firstNameRegister,
             "last":lastNameRegister,
           };
-          let data = {};
-          console.log(payload);
-          try {
-            data = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/register`, payload);
-          } catch (err) {console.error(err.message)}
-
-          login(data.data.user,data.data.user.isVerified);
-          if(!getIsVerified()){
+          const data = await apiRegister(payload);
+          login(data.data.id);
+          if(!data.data.isVerified){
             history.push('/verify');
           } else {
             history.push(`/`);
@@ -68,7 +63,7 @@ function Register(){
       } 
     };
   };
-  
+
   return <div>
     <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
     <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>

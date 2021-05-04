@@ -73,4 +73,16 @@ app.delete("/user/:id", async (req, res) => {
     }
 });
 
+
+app.get("/user/:id", async (req, res) => {
+    try {
+    const user = await UserModel.find({_id:req.params.id});
+    if (!user) res.status(404).send("No item found");
+    res.status(200).send(user);
+    } catch (err) {
+        console.log(err)
+    res.status(500).send(err);
+    }
+});
+
 module.exports = app;
