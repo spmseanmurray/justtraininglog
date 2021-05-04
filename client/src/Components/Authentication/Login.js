@@ -33,7 +33,6 @@ function Login(){
         if (!sessionStorage.getItem('id')){
           const payload = {"email":emailLogin,"password":passwordLogin}
           const data = await apiLogin(payload);
-          console.log(data)
           login(data.data.user._id);
           console.log(sessionStorage.getItem('id'))
           if(!data.data.user.isVerified){

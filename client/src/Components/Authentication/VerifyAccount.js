@@ -31,6 +31,9 @@ function VerifyAccount(){
         setH5(`Hello ${first.charAt(0).toUpperCase()+first.slice(1).toLowerCase()},`);
         setP1('Click below to recieve a validation code at:');
         setP2(`${email}`);
+        seth5TagVerify(`Hello ${first.charAt(0).toUpperCase()+first.slice(1).toLowerCase()},`);
+        setp1TagVerify('Click below to recieve a validation code at:');
+        setp2TagVerify(`${email}`);
     },[]);
       
     const getNewToken = () => {
@@ -95,7 +98,7 @@ function VerifyAccount(){
                 setAlertVerify(true);
                 setAlertMessageVerify(error.response.data.msg);
             } else if (error.response.status === 403) {
-                history.push(`/home`);
+                history.push(`/`);
             } else {
                 setAlertVerify(true);
                 setAlertMessageVerify("Oops... Something Went Wrong");
@@ -105,17 +108,19 @@ function VerifyAccount(){
 
     return <div>
             <div style = {{height:'5vh',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
+            <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
+            <div style = {{height:'80vh',width:'40vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
               <Col>
                 <Alert show={alertVerify} onClose={() => setAlertVerify(false)} dismissible transition={false}>
                 {alertMessageVerify}
                 </Alert>
                 <Alert show={alertInvalidToken} onClose={() => setAlertInvalidToken(false)} dismissible transition={false}>
-                    Your token is incorrect or expired. Please <Link to="/auth" onClick={()=>{getNewToken();}}>request a new token</Link> or try again.
+                    Your token is incorrect or expired. Please <Link to="/verify" onClick={()=>{getNewToken();}}>request a new token</Link> or try again.
                 </Alert>
                 <h5>{h5TagVerify}</h5>
                 <p>{p1TagVerify}</p>
-                
                 <p><strong><em>{p2TagVerify}</em></strong></p>
+
                 <Form hidden={!tokenVerify || verified} className="form" >
                     <FormGroup>
                         <Input
@@ -123,24 +128,22 @@ function VerifyAccount(){
                             name="token"
                             placeholder="Token"
                             value={token}
-                            onChange={(e) => {
-                            setToken(e.target.value)
-                            }}
+                            onChange={(e) => {setToken(e.target.value)}}
                             valid={validateToken(token)}
                             invalid={token.length > 0 && !validateToken(token)} 
                         />
                     </FormGroup> 
                 </Form>
                 <Button 
-                size="md"
-                hidden={tokenVerify}
-                disabled={!(email.length > 0)}
-                onClick={async () => {
-                    setAlertVerify(false);
-                    setAlertInvalidToken(false);
-                    await handleVerify();
-                }}
-                > Send Me a Code
+                    size="md"
+                    hidden={tokenVerify}
+                    disabled={!(email.length > 0)}
+                    onClick={async () => {
+                        setAlertVerify(false);
+                        setAlertInvalidToken(false);
+                        await handleVerify();
+                    }}
+                    > Send Me a Code
                 </Button>
                 <Button 
                     size="md"
@@ -151,30 +154,31 @@ function VerifyAccount(){
                         await handleToken();
                     }}
                     disabled={!validateToken(token)}
-                  > Confirm My Email
-                  </Button>
-                  <Button 
+                    > Confirm My Email
+                </Button>
+                <Button 
                     size="md"
                     hidden={!verified}
-                    onClick={() => {
-                        history.push(`/home`);
-                    }}
-                  > Go To My Dashboard
-                  </Button>
+                    onClick={() => {history.push(`/`);}}
+                    > Go To My Dashboard
+                </Button>
+                <div></div>
+                <Button
+                    color="link"
+                    size="sm"
+                    hidden={tokenVerify}
+                    onClick={()=>{alreadyHaveToken();}}
+                > I already have a token</Button>
+                <Button
+                    color="link"
+                    size="sm"
+                    hidden={!tokenVerify || verified}
+                    onClick={()=>{getNewToken();}}
+                > I need a token</Button>
             </Col>
-            <Button
-                color="link"
-                size="sm"
-                hidden={tokenVerify}
-                onClick={()=>{alreadyHaveToken();}}
-            > I already have a token</Button>
-            <Button
-                color="link"
-                size="sm"
-                hidden={!tokenVerify || verified}
-                onClick={()=>{getNewToken();}}
-            > I need a token</Button>
         </div>
+    </div>
+    </div>
 };
 
 export default VerifyAccount;

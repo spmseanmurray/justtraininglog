@@ -40,7 +40,7 @@ function Register(){
             "last":lastNameRegister,
           };
           const data = await apiRegister(payload);
-          login(data.data.id);
+          login(data.data.user._id);
           if(!data.data.isVerified){
             history.push('/verify');
           } else {

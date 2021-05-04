@@ -16,7 +16,7 @@ const Routes = () => (
         <PublicRoute exact path="/register" component={Register} />
         <PublicRoute exact path="/login" component={Login} />
         <PrivateRoute exact path="/verify" component={VerifyAccount} />
-        <PrivateRoute exact path="/home" component={Home} />
+        <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/activity/:id" component={Activity} />
         <PrivateRoute exact path="/activity-list" component={ActivityList} />
         <PrivateRoute exact path="/activity-history" component={ActivityHistroy} />
