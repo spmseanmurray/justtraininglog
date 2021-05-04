@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button,Col,Form, FormGroup,FormFeedback,Input} from 'reactstrap';
 import {Alert} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {useHistory} from "react-router-dom";
 import {login,logout} from '../../utils/common';
 import {validateEmail} from '../../utils/regex';
-import {apiLogin, apiUser} from '../../utils/api';
+import {apiLogin} from '../../utils/api';
 
 function Login(){
     const [emailLogin, setEmailLogin] = useState('');
