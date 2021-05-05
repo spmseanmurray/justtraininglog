@@ -12,8 +12,9 @@ function ActivityList() {
   const history = useHistory();
 
   useEffect(async () => {
+    const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`);
     // Get database activity data
-    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
+    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._userID}`);
     console.log(activityData);
     // Set chart data and colors
     setActivityColumns([

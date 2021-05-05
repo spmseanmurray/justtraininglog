@@ -16,8 +16,9 @@ function HRZoneHistory() {
       },
     };
     useEffect(async () => {
+        const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`);
         // Get database activity HR data
-        const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
+        const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._userID}`);
         const totalTimePerHRZone = activityData.data.filter(ele => (new Date().getTime() - new Date(ele.activityDate).getTime()) < 28*24*3600*1000).map(ele => ele.timePerHRZone).reduce(function(a, b){return a.map(function(v,i){return v+b[i];});});
         const percentPerZone = totalTimePerHRZone.map(ele => 100*ele/totalTimePerHRZone.reduce(function(a, b){return a + b;}));
       

@@ -8,6 +8,8 @@ import Home from '../Components/Home';
 import Register from '../Components/Authentication/Register';
 import Login from '../Components/Authentication/Login';
 import VerifyAccount from '../Components/Authentication/VerifyAccount';
+import StravaAuth from '../Components/Authentication/StravaAuth';
+import StravaRedirect from '../Components/Authentication/StravaRedirect';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 
@@ -16,6 +18,8 @@ const Routes = () => (
         <PublicRoute exact path="/register" component={Register} />
         <PublicRoute exact path="/login" component={Login} />
         <PrivateRoute exact path="/verify" component={VerifyAccount} />
+        <PrivateRoute exact path="/strava-auth" component={StravaAuth} />
+        <PrivateRoute path="/strava-redirect/" component={StravaRedirect} />
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/activity/:id" component={Activity} />
         <PrivateRoute exact path="/activity-list" component={ActivityList} />

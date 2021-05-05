@@ -23,20 +23,16 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Lastname required"],
         lowercase: true,
     },
-    stravaClientID: {
+    stravaRefreshToken: {
         type: String,
         lowercase: true,
-        default: '',
     },
-    stravaClientSecret: {
+    stravaAuthToken: {
         type: String,
         lowercase: true,
-        default: '',
     },
-    stravaClientRefreshToken: {
-        type: String,
-        lowercase: true,
-        default: '',
+    stravaAuthTokenExpiration: {
+        type: Number,
     },
     activityHRZones: {
         type: [Number],
@@ -57,12 +53,6 @@ UserSchema.pre("save", function(next) {
         });
     });
 });
-
-UserSchema.methods.toJSON = function() {
-    const obj = this.toObject();
-    delete obj.password;
-    return obj;
-};
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {

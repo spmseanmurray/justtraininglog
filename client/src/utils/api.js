@@ -30,6 +30,16 @@ export async function apiUser(id) {
     }    
 };
 
+export async function apiUpdateUser(id, payload) {
+    try { 
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/update/${id}`, payload);
+        return res;
+    } catch (error){
+        console.log(error.response);
+        throw error;
+    }    
+};
+
 export async function apiVerify(payload) {
     try {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/token/verify`, payload);

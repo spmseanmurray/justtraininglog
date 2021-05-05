@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const ActivitySchema = new mongoose.Schema({
-    _stravaID: {
-        type: Number,
-        required: true
-    },
+    _userID: {type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
     activityID: {
         type: Number,
         required: true

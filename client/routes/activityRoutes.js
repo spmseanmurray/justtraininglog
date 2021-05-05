@@ -11,6 +11,15 @@ app.get('/activity/:id', async (req, res) => {
     }
 });
 
+app.get('/activity/strava/:stravaId', async (req, res) => {
+  const activity = await activityModel.find({_stravaID:req.params.stravaID});
+  try {
+    res.send(activity);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 app.get('/activity', async (req, res) => {
     const activity = await activityModel.find();
     try {
