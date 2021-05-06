@@ -13,12 +13,11 @@ function App() {
   useEffect(async () => {
     if(sessionStorage.getItem('id')){
       const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`);
-      const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._userID}`);
-      console.log(activityData);
+      const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`);
       const id = await sessionStorage.getItem('id');
       let config, stravaActivityData;
       
-      if(user.data[0].stravaAuthTokenExpiration < Date.now()*1000){
+      if(user.data[0].stravaAuthTokenExpiration > Date.now()/1000){
         config = {headers: {"Authorization": `Bearer ${user.data[0].stravaAuthToken}`}};
         stravaActivityData = await axios.get(`${activities_link}?access_token=${user.data[0].stravaAuthToken}&per_page=${90}`);
       }else{

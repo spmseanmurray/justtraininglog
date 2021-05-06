@@ -5,7 +5,6 @@ import {getDaysArray} from '../../utils/common'
 
 function ActivityHistory() {
   const [data, setData] = useState([]);
-
   
   const options = {
     responsive: true,
@@ -20,10 +19,10 @@ function ActivityHistory() {
     },
   };
   
-
   useEffect(async () => {
+    const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`);
     // Get database activity data
-    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/`);
+    const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`);
     // Sort database activity data by sport
     const swimData = activityData.data.filter(ele => ele.activityType.includes('Swim'));
     const bikeData =  activityData.data.filter(ele => ele.activityType.includes('Ride'));
