@@ -8,6 +8,8 @@ function HRZoneHistory() {
     const [HRZoneData, setHRZoneData] = useState([]);
     const [HRRows, setHRRows] = useState([]);
     const [HRColumns, setHRColumns] = useState([]);
+    const [totalTimePerHRZone, setTotalTimePerHRZone] = useState([0, 0, 0, 0, 0, 0]);
+    const [percentPerZone, setPercentPerZone] = useState([0, 0, 0, 0, 0, 0]);
     const options = {
       plugins: {
         legend: {
@@ -20,9 +22,9 @@ function HRZoneHistory() {
         // Get database activity HR data
         const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`);
         try {
-          const totalTimePerHRZone = activityData.data.filter(ele => (new Date().getTime() - new Date(ele.activityDate).getTime()) < 28*24*3600*1000).map(ele => ele.timePerHRZone).reduce(function(a, b){return a.map(function(v,i){return v+b[i];});});
-          const percentPerZone = totalTimePerHRZone.map(ele => 100*ele/totalTimePerHRZone.reduce(function(a, b){return a + b;}));
-        }catch {const totalTimePerHRZone = [0, 0, 0, 0, 0, 0]; const percentPerZone = [0, 0, 0, 0, 0, 0];};
+          setTotalTimePerHRZone(activityData.data.filter(ele => (new Date().getTime() - new Date(ele.activityDate).getTime()) < 28*24*3600*1000).map(ele => ele.timePerHRZone).reduce(function(a, b){return a.map(function(v,i){return v+b[i];});}));
+          setPercentPerZone(totalTimePerHRZone.map(ele => 100*ele/totalTimePerHRZone.reduce(function(a, b){return a + b;})));
+        }catch {console.log('No HR data available.')};
         setHRZoneData({
             labels: HRZoneLabels,
             datasets: [
