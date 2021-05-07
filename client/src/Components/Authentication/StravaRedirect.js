@@ -26,8 +26,7 @@ function StravaRedirect() {
             console.log(id)
             console.log(payload)
             const res = await apiUpdateUser(id, payload)
-            console.log(res)
-            
+            console.log(res)            
         } catch (err) {console.log(err);}
     };
 
