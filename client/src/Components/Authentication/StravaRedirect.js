@@ -21,8 +21,6 @@ function StravaRedirect() {
                 stravaAuthToken: response.data.access_token,
                 stravaAuthTokenExpiration: response.data.expires_at,
             };
-            console.log(payload);
-            console.log(id);
             await apiUpdateUser(id, payload).then(() => history.push('/'));
             
         } catch (err) {console.log(err);}
