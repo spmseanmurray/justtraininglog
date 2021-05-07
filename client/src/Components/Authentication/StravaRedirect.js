@@ -15,14 +15,16 @@ function StravaRedirect() {
             const stravaAuthToken = parsed.code;
             const response = await axios.post(`${auth_link}?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&code=${stravaAuthToken}&grant_type=authorization_code`);
             const id = await sessionStorage.getItem('id');
+            
             const payload = {
                 stravaRefreshToken: response.data.refresh_token,
                 stravaAuthToken: response.data.access_token,
                 stravaAuthTokenExpiration: response.data.expires_at,
             };
-
-            await apiUpdateUser(id, payload);
-            history.push('/');
+            console.log(payload);
+            console.log(id);
+            await apiUpdateUser(id, payload).then(() => history.push('/'));
+            
         } catch (err) {console.log(err);}
     };
 
