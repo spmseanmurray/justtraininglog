@@ -160,7 +160,7 @@ function VerifyAccount(){
                     size="md"
                     hidden={!verified}
                     onClick={() => {history.push(`/strava-auth`);}}
-                    > Connect to Strava!
+                    > Connect to Strava
                 </Button>
                 <div></div>
                 <Button
