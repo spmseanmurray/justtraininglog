@@ -26,6 +26,9 @@ const ActivitySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    activityTSS: {
+        type: Number,
+    },
     averagePace: {
         type: String,
     },

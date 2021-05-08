@@ -23,7 +23,7 @@ function Header(){
     
     return(
         <div style={{flexGrow: 1}}>
-        <AppBar position="static" style={{ background: "#002D72",height:'37'}}>
+        <AppBar position="static" style={{ background: "#002D72",height:'35'}}>
             <Toolbar>
             <IconButton edge="start" style={{ background: "#002D72" }} onClick={() => {setIsOpenDrawer(true);}}>
             <MenuIcon style={{ color: "#FFFFFF" }}/>

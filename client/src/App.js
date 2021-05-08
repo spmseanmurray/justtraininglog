@@ -28,7 +28,7 @@ function App() {
           };
           await apiUpdateUser(id, payload);
           config = {headers: {"Authorization": `Bearer ${auth_data.data.access_token}`}};
-          stravaActivityData = await axios.get(`${activities_link}?access_token=${auth_data.data.access_token}&per_page=${90}`);
+          stravaActivityData = await axios.get(`${activities_link}?access_token=${auth_data.data.access_token}&per_page=${50}`);
         }
         let dbActivityIDs = activityData.data.map(ele => ele.activityID);
         let stravaActivityIDs = stravaActivityData.data.map(ele => ele.id);
@@ -38,7 +38,7 @@ function App() {
           const stream = await axios.get(`${streams_link}${filteredStravaActivityIDs[i]}/streams?key_by_type=true&keys=time,velocity_smooth,heartrate,altitude`,config);
           const idx = stravaActivityIDs.indexOf(filteredStravaActivityIDs[i]);
           const pace = stream.data.velocity_smooth.data.map(ele => (1000/60/ele)).filter(ele => ele != Infinity).map(ele=>Math.round((ele+Number.EPSILON)*100)/100);
-          console.log(stream);
+          const timePerHRZone = stream.data.hasOwnProperty('heartrate') ? getTimePerZone(stream) : [0,0,0,0,0,0];
           const payload = {
             _userID: id,
             activityID: filteredStravaActivityIDs[i],
@@ -53,7 +53,8 @@ function App() {
             heartrateStream: stream.data.hasOwnProperty('heartrate') ? stream.data.heartrate.data : [],
             elevationStream: stream.data.hasOwnProperty('altitude') ? stream.data.altitude.data.map(ele => ele - stream.data.altitude.data[0]) : 0,
             paceStream: pace,
-            timePerHRZone: stream.data.hasOwnProperty('heartrate') ? getTimePerZone(stream) : [0,0,0,0,0,0],
+            timePerHRZone: timePerHRZone,
+            activityTSS: timePerHRZone[0]*10/3600+timePerHRZone[1]*30/3600+timePerHRZone[2]*55/3600+timePerHRZone[3]*70/3600+timePerHRZone[4]*80/3600+timePerHRZone[5]*120/3600,
           };
         
           try {

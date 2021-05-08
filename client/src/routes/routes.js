@@ -12,6 +12,7 @@ import StravaAuth from '../Components/Authentication/StravaAuth';
 import StravaRedirect from '../Components/Authentication/StravaRedirect';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
+import Dashboard from '../Components/Dashboard';
 
 const Routes = () => (
     <Switch>
@@ -20,7 +21,8 @@ const Routes = () => (
         <PrivateRoute exact path="/verify" component={VerifyAccount} />
         <PrivateRoute exact path="/strava-auth" component={StravaAuth} />
         <PrivateRoute path="/strava-redirect/" component={StravaRedirect} />
-        <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute exact path="/" component={Dashboard} />
+        <PrivateRoute exact path="/home" component={Home} />
         <PrivateRoute exact path="/activity/:id" component={Activity} />
         <PrivateRoute exact path="/activity-list" component={ActivityList} />
         <PrivateRoute exact path="/activity-history" component={ActivityHistroy} />
