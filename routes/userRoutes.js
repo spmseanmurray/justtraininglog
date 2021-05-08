@@ -1,5 +1,5 @@
 const express = require("express");
-const UserModel = require("../../models/user");
+const UserModel = require("../models/user");
 const {check, validationResult} = require("express-validator");
 const app = express();
 

@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const getClient = require('./db.js');
-const activityRouter = require('./client/routes/activityRoutes.js');
-const userRouter = require('./client/routes/userRoutes.js');
-const tokenRouter = require('./client/routes/tokenRoutes.js');
+const activityRouter = require('./routes/activityRoutes.js');
+const userRouter = require('./routes/userRoutes.js');
+const tokenRouter = require('./routes/tokenRoutes.js');
 
 require('dotenv').config();
 const app = express();
