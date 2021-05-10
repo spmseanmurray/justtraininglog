@@ -5,34 +5,44 @@ import IconButton from '@material-ui/core/IconButton';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import PoolIcon from '@material-ui/icons/Pool';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 
 function TrainingSelector() {
 const [activityType, setActivityType] = useState('Run');
-const [duration, setDuration] = useState(7);
-const [interval, setInterval] = useState('D');
+const [index, setIndex] = useState(0);
+const [interval, setInterval] = useState('W');
 
 return(
-    <div>
+    <div style={{backgroundColor:'white', zIndex:-1, height:'calc(30vh)'}}>
         <div>
-            <div>
-                <Button style={{margin:'10px', color: interval==='D'?'white':'grey', backgroundColor:'purple',}} onClick={()=>{setInterval('D')}}>D</Button>
-                <Button style={{margin:'10px', color: interval==='W'?'white':'grey', backgroundColor:'purple',}} onClick={()=>{setInterval('W')}}>W</Button>
-                <Button style={{margin:'10px', color: interval==='M'?'white':'grey', backgroundColor:'purple',}} onClick={()=>{setInterval('M')}}>M</Button>
-                <Button style={{margin:'10px', color: interval==='Y'?'white':'grey', backgroundColor:'purple',}} onClick={()=>{setInterval('Y')}}>Y</Button> 
-            </div>
-            <div>
-                <IconButton style={{color: activityType==='Run'?'purple':'grey'}} onClick={()=>{setActivityType('Run')}}>
-                    <DirectionsRunIcon />
-                </IconButton>
-                <IconButton style={{color: activityType==='Bike'?'purple':'grey'}} onClick={()=>{setActivityType('Bike')}}>
-                    <DirectionsBikeIcon />
-                </IconButton>
-                <IconButton style={{color: activityType==='Swim'?'purple':'grey'}} onClick={()=>{setActivityType('Swim')}}>
-                    <PoolIcon />
-                </IconButton>
+            <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+                <div>
+                    <IconButton onClick={()=>{setIndex(index+1)}}>
+                        <ArrowLeftIcon/>
+                    </IconButton>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='W'? 'purple':'grey'}} onClick={()=>{setInterval('W') }}>W</Button>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='M'? 'purple':'grey'}} onClick={()=>{setInterval('M')}}>M</Button>
+                    <Button disabled style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Q'? 'purple':'grey'}} onClick={()=>{setInterval('Q')}}>Q</Button>
+                    <Button disabled style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Y'? 'purple':'grey'}} onClick={()=>{setInterval('Y')}}>Y</Button> 
+                </div>
+                <div>
+                    <IconButton style={{color: activityType==='Run'?'purple':'grey'}} onClick={()=>{setActivityType('Run'); setIndex(0)}}>
+                        <DirectionsRunIcon />
+                    </IconButton>
+                    <IconButton style={{color: activityType==='Ride'?'purple':'grey'}} onClick={()=>{setActivityType('Ride'); setIndex(0)}}>
+                        <DirectionsBikeIcon />
+                    </IconButton>
+                    <IconButton style={{color: activityType==='Swim'?'purple':'grey'}} onClick={()=>{setActivityType('Swim'); setIndex(0)}}>
+                        <PoolIcon />
+                    </IconButton>
+                    <IconButton onClick={()=>{setIndex(index-1)}} disabled={index===0?true:false}>
+                        <ArrowRightIcon/>
+                    </IconButton>
+                </div>
             </div>
         </div>
-        <TrainingHistory activityType={activityType} duration={duration} interval={interval}/>
+        <TrainingHistory activityType={activityType} index={index} interval={interval}/>
     </div>
 )
 

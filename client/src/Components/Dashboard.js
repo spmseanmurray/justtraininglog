@@ -6,7 +6,7 @@ import TrainingSelector from './Activity/TrainingSelector';
 function Dashboard() {
 
     return (
-    <div>
+    <div style={{backgroundColor:'lightgrey', zIndex:-1, height:'calc(100vh - 65px)'}}>
         <div style = {{height:'35',display:'flex', alignItems:'center',justifyContent:'center'}}></div>
         <div style={{flexGrow: 1,height:'calc(100vh - 125px)',overflowY:'hidden',overflowX:'hidden', margin:'20px'}}>
         <Grid container direction="row" justify="center" spacing={3}>

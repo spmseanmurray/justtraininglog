@@ -34,7 +34,7 @@ function ActivityList() {
   }, []);
 
   return (
-    <div>
+    <div style={{backgroundColor:'white', zIndex:-1, height:'calc(80vh)'}}>
     <div style = {{height:'80vh',display:'flex', alignItems:'center',justifyContent:'center'}}>
       <div style = {{height:'80vh',width:'90vw',display:'flex', alignItems:'center',justifyContent:'center'}}>
           <DataGrid rows={activityRows} columns={activityColumns} disableColumnMenu={true} onCellDoubleClick={(params)=>history.push(`/activity/${params.id}`)} sortModel={[{field: 'date', sort: 'desc',}]} scrollbarSize={17}/>
