@@ -30,10 +30,11 @@ function TrainingHistory({activityType, duration, interval}) {
     const activityData = await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`);
     // Sort database activity data by sport
     const filteredActivityData = activityData.data.filter(ele => ele.activityType.includes(activityType));
+    console.log(activityType)
     const today = new Date();
     let intervalList = [];
     let activityDates = [];
-    if (interval === 'day'){
+    if (interval === 'D'){
       intervalList = (getDaysArray(today.setDate(today.getDate()-duration),new Date()).map((ele)=>ele.toISOString().slice(5,10)));
       activityDates = (filteredActivityData.map((ele) => new Date(ele.activityDate)).map((ele)=>ele.toISOString().slice(5,10)));
     }
@@ -49,13 +50,13 @@ function TrainingHistory({activityType, duration, interval}) {
         {
           label: activityType,
           data: activityDistances,
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgba(255, 99, 132, 0.2)',
+          backgroundColor: 'purple',
+          borderColor: 'purple',
         },
 
       ] 
     });
-  }, []);
+  }, [activityType, duration, interval]);
 
   return (
     <div>

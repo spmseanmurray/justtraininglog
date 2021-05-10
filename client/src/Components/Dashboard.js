@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import ActivityList from './Activity/ActivityList';
-import TrainingHistory from './Activity/TrainingHistory';
+import TrainingSelector from './Activity/TrainingSelector';
 
 function Dashboard() {
 
@@ -15,7 +15,7 @@ function Dashboard() {
           </Grid>
 
           <Grid item xs={6}>
-            <TrainingHistory activityType='Run' duration={7} interval='day'/>
+            <TrainingSelector activityType='Run' duration={7} interval='day'/>
           </Grid>
 
         </Grid>
