@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
-import {getDaysArray, getWeeksArray, getWeekNumber} from '../../utils/common'
+import {getDaysArray, getWeeksArray, getMonthsArray, monthNames} from '../../utils/common'
 
 function TrainingHistory({activityType, index, interval}) {
   const [data, setData] = useState([]);
@@ -18,7 +18,7 @@ function TrainingHistory({activityType, index, interval}) {
     },
     scales:{
         x: {
-            title: {display: true, text: 'Date'}
+            title: {display: true, text: interval==='W'||interval==='M'?'Date':interval==='Q'?'Week #':'Month'}
         },
         y: {
             title: {display: true, text: 'Distance [km]'}
@@ -41,23 +41,18 @@ function TrainingHistory({activityType, index, interval}) {
     const endDate = new Date();
     if (interval === 'W'){
       intervalList = (getDaysArray(startDate.setDate(startDate.getDate()-7*(index+1)+1),endDate.setDate(endDate.getDate()-7*index)).map((ele)=>ele.toISOString().slice(5,10)));
-      activityDates = (filteredActivityData.map((ele) => new Date(ele.activityDate)).map((ele)=>ele.toISOString().slice(5,10)));
-      activityDistances = intervalList.map((ele)=>{
-        const idx = activityDates.indexOf(ele);
-        return (idx === -1) ? 0 : filteredActivityData[idx].activityDistance;
-      });
+      filteredActivityData.map(ele => {ele.filteredDate = new Date(ele.activityDate).toISOString().slice(5,10)});
     }else if (interval === 'M'){
       intervalList = (getDaysArray(startDate.setDate(startDate.getDate()-28*(index+1)+1),endDate.setDate(endDate.getDate()-28*index)).map((ele)=>ele.toISOString().slice(5,10)));
-      activityDates = (filteredActivityData.map((ele) => new Date(ele.activityDate)).map((ele)=>ele.toISOString().slice(5,10)));
-      activityDistances = intervalList.map((ele)=>{
-        const idx = activityDates.indexOf(ele);
-        return (idx === -1) ? 0 : filteredActivityData[idx].activityDistance;
-      });
+      filteredActivityData.map(ele => {ele.filteredDate = new Date(ele.activityDate).toISOString().slice(5,10)});
     }else if (interval === 'Q'){
       intervalList = getWeeksArray(startDate.setDate(startDate.getDate()-84*(index+1)+1),endDate.setDate(endDate.getDate()-84*index));
-      filteredActivityData.map(ele=>{ele.filteredDate = getWeekNumber(new Date(ele.activityDate)); return ele});
-      activityDistances = intervalList.map(ele => filteredActivityData.filter(e => e.filteredDate===ele).reduce((sum, curr) => sum + curr.activityDistance, 0))
+      filteredActivityData.map(ele=>{ele.filteredDate = new Date(ele.activityDate).getWeek()});
+    }else if (interval === 'Y'){
+      intervalList = getMonthsArray(endDate.setYear(endDate.getYear()-index));
+      filteredActivityData.map(ele=>{ele.filteredDate = monthNames[new Date(ele.activityDate).getMonth()]});
     }
+    activityDistances = intervalList.map(ele => filteredActivityData.filter(e => e.filteredDate===ele).reduce((sum, curr) => sum + curr.activityDistance, 0))
 
     // Set chart data and colors
     setData({

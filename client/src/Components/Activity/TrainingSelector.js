@@ -18,13 +18,13 @@ return(
         <div>
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
                 <div>
-                    <IconButton style={{color:'purple'}} onClick={()=>{setIndex(index+1)}}>
+                    <IconButton style={{color:interval==='Y'?'lightgrey':'purple'}} onClick={()=>{setIndex(index+1)}} disabled={interval==='Y'?true:false}>
                         <ArrowLeftIcon/>
                     </IconButton>
-                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='W'? 'purple':'grey'}} onClick={()=>{setInterval('W') }}>W</Button>
-                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='M'? 'purple':'grey'}} onClick={()=>{setInterval('M')}}>M</Button>
-                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Q'? 'purple':'grey'}} onClick={()=>{setInterval('Q')}}>Q</Button>
-                    <Button disabled style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Y'? 'purple':'grey'}} onClick={()=>{setInterval('Y')}}>Y</Button> 
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='W'? 'purple':'grey'}} onClick={()=>{setInterval('W'); setIndex(0)}}>W</Button>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='M'? 'purple':'grey'}} onClick={()=>{setInterval('M'); setIndex(0)}}>M</Button>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Q'? 'purple':'grey'}} onClick={()=>{setInterval('Q'); setIndex(0)}}>Q</Button>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Y'? 'purple':'grey'}} onClick={()=>{setInterval('Y'); setIndex(0)}}>Y</Button> 
                 </div>
                 <div>
                     <IconButton style={{color: activityType==='Run'?'purple':'grey'}} onClick={()=>{setActivityType('Run'); setIndex(0)}}>
