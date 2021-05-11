@@ -18,12 +18,12 @@ return(
         <div>
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
                 <div>
-                    <IconButton onClick={()=>{setIndex(index+1)}}>
+                    <IconButton style={{color:'purple'}} onClick={()=>{setIndex(index+1)}}>
                         <ArrowLeftIcon/>
                     </IconButton>
                     <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='W'? 'purple':'grey'}} onClick={()=>{setInterval('W') }}>W</Button>
                     <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='M'? 'purple':'grey'}} onClick={()=>{setInterval('M')}}>M</Button>
-                    <Button disabled style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Q'? 'purple':'grey'}} onClick={()=>{setInterval('Q')}}>Q</Button>
+                    <Button style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Q'? 'purple':'grey'}} onClick={()=>{setInterval('Q')}}>Q</Button>
                     <Button disabled style={{margin:'5px', minWidth: '40px', backgroundColor: interval==='Y'? 'purple':'grey'}} onClick={()=>{setInterval('Y')}}>Y</Button> 
                 </div>
                 <div>
@@ -36,7 +36,7 @@ return(
                     <IconButton style={{color: activityType==='Swim'?'purple':'grey'}} onClick={()=>{setActivityType('Swim'); setIndex(0)}}>
                         <PoolIcon />
                     </IconButton>
-                    <IconButton onClick={()=>{setIndex(index-1)}} disabled={index===0?true:false}>
+                    <IconButton onClick={()=>{setIndex(index-1)}} style={{color:index===0?'lightgrey':'purple'}} disabled={index===0?true:false}>
                         <ArrowRightIcon/>
                     </IconButton>
                 </div>

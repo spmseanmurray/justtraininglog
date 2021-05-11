@@ -10,8 +10,28 @@ export const HRZoneLabels = ['Zone 0','Zone 1','Zone 2','Zone 3','Zone 4','Zone 
 
 // Get array of date object for each day between start and end day
 export const getDaysArray = function(start, end) {
-    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
-        arr.push(new Date(dt));
+    for(var arr=[],d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+        arr.push(new Date(d));
+    }
+    return arr;
+};
+export const getWeekNumber = function(d) {
+    // Copy date so don't modify original
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    // Get first day of year
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    // Calculate full weeks to nearest Thursday
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    // Return array of year and week number
+    return `Week ${weekNo} - ${d.getUTCFullYear()}`;
+}
+
+export const getWeeksArray = function(start, end) {
+    for(var arr=[],d=new Date(start); d<=end; d.setDate(d.getDate()+7)){
+        arr.push(getWeekNumber(d));
     }
     return arr;
 };
