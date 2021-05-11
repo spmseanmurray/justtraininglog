@@ -5,7 +5,6 @@ import {getDaysArray, getWeeksArray, getMonthsArray, monthNames} from '../../uti
 
 function TrainingHistory({activityType, index, interval}) {
   const [data, setData] = useState([]);
-  const [user, setUser] = useState();
   const [activityData, setActivityData] = useState();
   const options = {
     responsive: true,
@@ -26,16 +25,14 @@ function TrainingHistory({activityType, index, interval}) {
     },
   };
   useEffect(async () => {
-    const tempUser = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`)
-    setUser(tempUser);
+    const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`)
     // Get database activity data
-    setActivityData(await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${tempUser.data[0]._id}`));
+    setActivityData(await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`));
   },[]);
   useEffect(async () => {
     // Sort database activity data by sport
     const filteredActivityData = typeof(activityData)==='undefined'?[]:activityData.data.filter(ele => ele.activityType.includes(activityType));
     let intervalList = [];
-    let activityDates = [];
     let activityDistances = [];
     const startDate = new Date();
     const endDate = new Date();
@@ -72,7 +69,7 @@ function TrainingHistory({activityType, index, interval}) {
   return (
     <div>
     <div style = {{display:'flex',justifyContent:'center'}}>
-      <div style = {{height:'25vh',width:'100vh',display:'flex', justifyContent:'center'}}>
+      <div style = {{height:'25vh',width:'95vh',display:'flex', justifyContent:'center'}}>
         <Line data={data} options={options}/>
       </div>
     </div>

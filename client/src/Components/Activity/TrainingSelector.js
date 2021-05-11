@@ -11,7 +11,7 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 function TrainingSelector() {
 const [activityType, setActivityType] = useState('Run');
 const [index, setIndex] = useState(0);
-const [interval, setInterval] = useState('W');
+const [interval, setInterval] = useState('Q');
 
 return(
     <div style={{backgroundColor:'white', zIndex:-1, height:'calc(30vh)'}}>
@@ -42,7 +42,9 @@ return(
                 </div>
             </div>
         </div>
-        <TrainingHistory activityType={activityType} index={index} interval={interval}/>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
+            <TrainingHistory activityType={activityType} index={index} interval={interval}/>
+        </div>
     </div>
 )
 
