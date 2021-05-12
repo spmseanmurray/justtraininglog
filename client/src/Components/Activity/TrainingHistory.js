@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Line } from 'react-chartjs-2';
-import axios from 'axios';
 import {getDaysArray, getWeeksArray, getMonthsArray, monthNames} from '../../utils/common'
 
-function TrainingHistory({activityType, index, interval}) {
+function TrainingHistory({activityData, activityType, index, interval, type}) {
   const [data, setData] = useState([]);
-  const [activityData, setActivityData] = useState();
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -16,24 +14,22 @@ function TrainingHistory({activityType, index, interval}) {
       },
     },
     scales:{
+        
         x: {
             title: {display: true, text: interval==='W'||interval==='M'?'Date':interval==='Q'?'Week #':'Month'}
         },
         y: {
-            title: {display: true, text: 'Distance [km]'}
+            title: {display: true, text: type==='distance'?'Distance [km]':'TSS'},
+            beginAtZero: true,
         },
     },
   };
-  useEffect(async () => {
-    const user = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/${sessionStorage.getItem('id')}`)
-    // Get database activity data
-    setActivityData(await axios.get(`${process.env.REACT_APP_API_URL}/api/activity/strava/${user.data[0]._id}`));
-  },[]);
+
   useEffect(async () => {
     // Sort database activity data by sport
-    const filteredActivityData = typeof(activityData)==='undefined'?[]:activityData.data.filter(ele => ele.activityType.includes(activityType));
+    const filteredActivityData = typeof(activityData)==='undefined'?[]:activityType==='All'?activityData.data:activityData.data.filter(ele => ele.activityType.includes(activityType));
     let intervalList = [];
-    let activityDistances = [];
+    let activitySums = [];
     const startDate = new Date();
     const endDate = new Date();
     if (interval === 'W'){
@@ -49,7 +45,13 @@ function TrainingHistory({activityType, index, interval}) {
       intervalList = getMonthsArray(endDate.setYear(endDate.getYear()-index));
       filteredActivityData.map(ele=>{ele.filteredDate = monthNames[new Date(ele.activityDate).getMonth()]});
     }
-    activityDistances = intervalList.map(ele => filteredActivityData.filter(e => e.filteredDate===ele).reduce((sum, curr) => sum + curr.activityDistance, 0))
+    if(type === 'distance'){
+      activitySums = intervalList.map(ele => filteredActivityData.filter(e => e.filteredDate===ele).reduce((sum, curr) => sum + curr.activityDistance, 0))
+    }else if (type === 'TSS'){
+      activitySums = intervalList.map(ele => filteredActivityData.filter(e => e.filteredDate===ele).reduce((sum, curr) => sum + curr.activityTSS, 0))
+    }
+    
+    
 
     // Set chart data and colors
     setData({
@@ -57,14 +59,14 @@ function TrainingHistory({activityType, index, interval}) {
       datasets: [
         {
           label: activityType,
-          data: activityDistances,
+          data: activitySums,
           backgroundColor: 'purple',
           borderColor: 'purple',
         },
 
       ] 
     });
-  }, [activityType, index, interval, activityData]);
+  }, [activityData, activityType, index, interval, activityData]);
 
   return (
     <div>
